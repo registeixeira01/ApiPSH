@@ -8,12 +8,11 @@ exports.postCadastrarEventos = (req, res, next) => {
         //     if (errBcrypt) {
         //         return res.status(500).send({ error: errBcrypt })
         //     }
-            const token = req.body.token || req.query.token || req.headers['authorization'];
-           
             conn.query(
-                "INSERT INTO Eventos (idOng ,nomeEvento,dataEvento, cepEvento, enderecoEvento, numeroEvento, bairroEvento, cidadeEvento, UfEvento, qtdVoluntarios, duracaoEvento, pontuacaoHora, pontuacao) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                "INSERT INTO Eventos (idOng, ongResponsavel, nomeEvento, dataEvento, cepEvento, enderecoEvento, numeroEvento, bairroEvento, cidadeEvento, UfEvento, qtdVoluntarios, duracaoEvento, pontuacaoHora, pontuacao) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 [
-                    req.body.idOng,
+                    req.Ong.idOng,
+                    req.Ong.nomeOng,
                     req.body.nomeEvento,
                     req.body.dataEvento,
                     req.body.cepEvento,
@@ -41,7 +40,6 @@ exports.postCadastrarEventos = (req, res, next) => {
                         mensagem: "Evento Criado com Sucesso",
                         eventoCriado: {
                             Ong_idOng: resultado.Ong_idOng,
-                         
                         }
                         
                     }

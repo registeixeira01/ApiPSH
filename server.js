@@ -4,4 +4,5 @@ const app = require('./app');
 const port = process.env.PORT || 3000; //porta padrao
 const server = http.createServer(app); //cria o server
 server.listen(port);
+console.log("Servidor rodando na porta " + port);
 

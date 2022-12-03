@@ -13,8 +13,19 @@ exports.postCadastrarOngs = (req, res, next) => {
             }
 
             conn.query(
-                "INSERT INTO Ongs (nomeOng, emailOng, password,  razaoSocial, cnpjOng, cepOng, enderecoOng, numeroOng, bairroOng, cidadeOng, ufOng) VALUES (?,?,?,?,?,?,?,?,?,?,?)", //longitude e latitude ainda n foram incrementadas
-                [req.body.nomeOng, req.body.emailOng, hash, req.body.razaoSocial, req.body.cnpjOng, req.body.cepOng, req.body.enderecoOng, req.body.numeroOng, req.body.bairroOng, req.body.cidadeOng, req.body.ufOng],
+                "INSERT INTO Ongs (nomeOng, emailOng, password, cnpjOng, cepOng, enderecoOng, numeroOng, bairroOng, cidadeOng, ufOng) VALUES (?,?,?,?,?,?,?,?,?,?)", //longitude e latitude ainda n foram incrementadas
+                [
+                    req.body.nomeOng, 
+                    req.body.emailOng, 
+                    hash,  
+                    req.body.cnpjOng, 
+                    req.body.cepOng, 
+                    req.body.enderecoOng, 
+                    req.body.numeroOng, 
+                    req.body.bairroOng, 
+                    req.body.cidadeOng, 
+                    req.body.ufOng
+                ],
                 (error, resultado) => {
                     conn.release();
                     if (error) {
@@ -26,14 +37,12 @@ exports.postCadastrarOngs = (req, res, next) => {
                     }
 
                     const response = {
-                        mensagem: "Ong  criada com Sucesso",
+                        mensagem: "Ong criada com Sucesso",
                         doadorCriado: {
                             idOng: resultado.insertId,
-                            nomeOng: req.body.nomeDoador,
+                            nomeOng: req.body.nomeOng,
                             emailOng: req.body.emailOng,
-                            CNPJ: req.body.cnpjOng,
-
-
+                            CNPJ: req.body.cnpjOng
                         }
                     }
                     return res.status(201).send(response);
@@ -51,7 +60,7 @@ exports.postLoginOngs = (req, res, next) => {
             [req.body.emailOng, req.body.nomeOng],
             (error, resultado) => {
                 conn.release();
-                if (error) {
+                if (error) { 
                     return res.status(500).send({
                         error: error
                     })

@@ -47,8 +47,8 @@ exports.postCadastrarVoluntario = (req, res, next) => {
 exports.postLoginVoluntario = (req, res, next) => {
     mysql.getConnection((error, conn) => {
         if (error) { return res.status(500).send({ error: error }) }
-        const query = "SELECT * FROM Voluntarios WHERE emailVoluntario = ?  or nomeVoluntario = ?";
-        conn.query(query, [req.body.email, req.body.nomeVoluntario], (error, resultado, field) => {
+        const query = "SELECT * FROM Voluntarios WHERE emailVoluntario = ?";
+        conn.query(query, [req.body.emailVoluntario], (error, resultado, field) => {
 
             conn.release();
             if (error) {
@@ -85,4 +85,41 @@ exports.postLoginVoluntario = (req, res, next) => {
             });
         });
     });
+};
+
+exports.postCadastrarVoluntarioEvento = (req, res, next) => {
+    mysql.getConnection((error, conn) => {
+        if (error) { return res.status(500).send({ error: error }) }
+        // // criptorafia de senha 
+        // bcrypt.hash(req.body.password, 10, (errBcrypt, hash) => {
+        //     if (errBcrypt) {
+        //         return res.status(500).send({ error: errBcrypt })
+        //     }
+            conn.query(
+                "INSERT INTO Eventos_Voluntarios(idEvento, idVoluntario) VALUES (?,?)",
+                [
+                    req.params.idEvento, 
+                    req.Voluntario.idVoluntario,  
+                ],
+                (error, resultado) => {
+                    conn.release();
+                    if (error) {
+                        return res.status(500).send(
+                            console.log(error),
+                            {
+                                error: error
+                            })
+                    }
+
+                    const response = {
+                        mensagem: "Evento Criado com Sucesso",
+                        eventoCriado: {
+                            Eventos_idEvento: resultado.Eventos_idEvento,
+                            Voluntario_idVoluntario: resultado.Voluntario_idVoluntario,
+                        }
+                        
+                    }
+                    return res.status(201).send(response);
+                })
+        });
 };

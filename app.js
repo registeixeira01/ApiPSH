@@ -8,6 +8,7 @@ const rotaDoador = require('./routes/Doador');
 const rotaEventos = require('./routes/Eventos');
 const rotaOng = require('./routes/Ong');
 const rotaVoluntario = require('./routes/Voluntario');
+// const rotaEventoVoluntario = require('./routes/eventoVoluntario');
 
 app.use(morgan('dev')); //monitora a execução e exibe um log
 app.use(bodyParser.urlencoded({extended: false})); //apenas aceitar dados simples
@@ -28,10 +29,11 @@ app.use((req, res, next) => { //Permissao de origin de acesso, servidor que api 
          next();
 })
 app.use('/produtoResgate', rotaProdutos);
-app.use('/Doador', rotaDoador);
-app.use('/Eventos', rotaEventos);
-app.use('/Ong', rotaOng);   rotaVoluntario
-app.use('/Voluntario', rotaVoluntario); 
+app.use('/doadores', rotaDoador);
+app.use('/eventos', rotaEventos);
+app.use('/ongs', rotaOng);  
+app.use('/voluntarios', rotaVoluntario); 
+// app.use('/eventosVoluntarios', rotaEventoVoluntario); 
 // rotas não encontrada
 app.use((req, res, next) => {
     const erro = new Error(':( Nenhuma Rota encontrada')

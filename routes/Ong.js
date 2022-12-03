@@ -1,15 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const PostCadastrarOngs = require('../controllers/ongController')
-const PostLoginOngs = require('../controllers/ongController')
+const controller = require('../controllers/ongController')
 
 // cadastro de Doador
-router.post('/cadastrarOng', PostCadastrarOngs.postCadastrarOngs );
+router.post('/cadastrarOng', controller.postCadastrarOngs );
 
 // login de Doador
-router.post('/loginOng', PostLoginOngs.postLoginOngs );
+router.post('/loginOng', controller.postLoginOngs );
         
-
-
 module.exports = router;
