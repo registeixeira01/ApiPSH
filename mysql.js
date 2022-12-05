@@ -1,3 +1,4 @@
+const { query } = require('express');
 const mysql = require('mysql');
 
 var pool = mysql.createPool({
@@ -8,5 +9,16 @@ var pool = mysql.createPool({
     "port": process.env.MYSQL_PORT
 });
 
+exports.execute = (query, params=[]) => {
+    return new Promise((resolve, reject) => {
+        pool.query(query, params, (error, result, fields) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(result)
+            }
+        });
+    })
+}
 
 exports.pool = pool;

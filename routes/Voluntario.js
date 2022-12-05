@@ -6,12 +6,17 @@ const loginVoluntario = require('../middleware/loginVoluntario')
 
 const controller = require('../controllers/voluntarioController');
 
-// cadastro de Doador
+// cadastro de voluntário
 router.post('/cadastrarVoluntario', controller.postCadastrarVoluntario );
 
-// login de Doador
+// login de voluntário
 router.post('/loginVoluntario', controller.postLoginVoluntario);
 
+// cadastrar voluntario em um evento
 router.post('/cadastrarVoluntarioEvento/:idEvento', loginVoluntario, controller.postCadastrarVoluntarioEvento);
+
+// listar eventos em que o voluntário está inscrito
+router.get('/voluntariosListar', loginVoluntario, controller.getVoluntarioListarEventosInscritos);
+
 
 module.exports = router;
