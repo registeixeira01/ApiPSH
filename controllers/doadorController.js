@@ -41,10 +41,10 @@ exports.postCadastroDoador = (req, res, next) => {
     });
 };
 
-exports.postLoginDoador =  (req, res, next) => {
+exports.postLoginDoador = (req, res, next) => {
     mysql.getConnection((error, conn) => {
         if (error) { return res.status(500).send({ error: error }) }
-        const query = "SELECT * FROM Doadores WHERE emailDoador = ?  or nomeDoador = ?";
+        const query = "SELECT * FROM Doadores WHERE emailDoador = ?";
         conn.query(query, [req.body.emailDoador, req.body.nomeDoador], (error, resultado, field) => {
 
             conn.release();
@@ -63,23 +63,56 @@ exports.postLoginDoador =  (req, res, next) => {
                 }
                 if (result) {
                     const tokenDoador = jwt.sign({
-                            idDoador: resultado[0].idDoador,
-                            nomeDoador: resultado[0].nomeDoador,
-                            emailDoador: resultado[0].emailDoador
+                        idDoador: resultado[0].idDoador,
+                        nomeDoador: resultado[0].nomeDoador,
+                        emailDoador: resultado[0].emailDoador
 
                     },
-                     process.env.JWT_KEY,
-                     {
-                        expiresIn : "1h"
-                     });
+                        process.env.JWT_KEY,
+                        {
+                            expiresIn: "1h"
+                        });
                     return res.status(200).send({
                         mensagem: 'Autenticado com sucesso',
                         token: tokenDoador
                     });
 
                 }
-                return res.status(401).send({ mensagem: 'Email e senha incorretos'})
+                return res.status(401).send({ mensagem: 'Email e senha incorretos' })
             });
         });
     });
 }
+
+
+exports.get = (req, res, next) => {
+    mysql.getConnection((error, conn) => {
+        if (error) { return res.status(500).send({ error: error }) }
+
+        conn.query(
+            `SELECT  o.nomeOng AS "Ong Responsavel:", o.enderecoOng AS "Endereco pra Entrega de Doação:",doa.nomeDoador AS "Nome do Doador:", tp.nomeDoacao AS "Tipo de Doação:" 
+            FROM Doacoes AS d
+            INNER JOIN Doadores AS doa
+            ON doa.idDoador = d.idDoador
+
+            inner join tipoDoacoes as tp
+            on tp.idtipoDoacao = d.idtipoDoacao
+            
+            inner join Ongs as o
+            on o.idOng = tp.idOng
+            
+            WHERE doa.idDoador = ?`
+            ,
+            [req.Doador.idDoador],
+            (error, resultado) => {
+                conn.release();
+                if (error) {
+                    return res.status(500).send({
+                        error: error
+                    })
+                }
+
+                return res.status(200).send({ response: resultado })
+            });
+    });
+};

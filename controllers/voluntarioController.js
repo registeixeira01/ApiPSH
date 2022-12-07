@@ -36,6 +36,7 @@ exports.postCadastrarVoluntario = async (req, res, next) => {
         return res.status(201).send(response);
 
     } catch (error) {
+        console.log(error)
         return res.status(500).send({
             Mensagem: "Falha ao processar sua requisição, verifique os dados e tente novamente",
             Erro: error
