@@ -99,9 +99,9 @@ exports.postCadastrarVoluntarioEvento = async (req, res, next) => {
 
 exports.getVoluntarioListarEventosInscritos = async(req, res, next) => {
     try {
-        const query = `SELECT eventos.idEvento 'ID do evento',
-                              eventos.nomeEvento 'Nome do Evento', 
-                              DATE_FORMAT(eventos.dataEvento,'%d/%m/%Y') 'Data do evento'
+        const query = `SELECT eventos.idEvento,
+                              eventos.nomeEvento, 
+                              DATE_FORMAT(eventos.dataEvento,'%d/%m/%Y') 'dataEvento'
                          FROM eventos_voluntarios 
                    INNER JOIN eventos 
                            ON eventos.idEvento = eventos_voluntarios.idEvento

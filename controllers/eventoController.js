@@ -3,7 +3,8 @@ const mysql = require('../mysql');
 exports.getEventos = async (req, res, next) => {
     try {
         const resultado = await mysql.execute(
-                  `SELECT idOng,
+                  `SELECT idEvento,
+                          idOng,
                           ongResponsavel,
                           nomeEvento,
                           DATE_FORMAT(dataEvento,'%d/%m/%Y') 'dataEvento',
