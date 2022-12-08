@@ -31,7 +31,7 @@ exports.getEventos = async (req, res, next) => {
 
 exports.postCadastrarEventos = async (req, res, next) => {
     try {
-        const query = "INSERT INTO Eventos (idOng, ongResponsavel, nomeEvento, dataEvento, horarioEvento, cepEvento, enderecoEvento, numeroEvento, bairroEvento, cidadeEvento, UfEvento, qtdVoluntarios, duracaoEvento, pontuacao) VALUES (?,?,?,date_format(?,'%Y/%m/%d'),?,?,?,?,?,?,?,?,?,?)"
+        const query = "INSERT INTO Eventos (idOng, ongResponsavel, nomeEvento, dataEvento, horarioEvento, cepEvento, enderecoEvento, numeroEvento, bairroEvento, cidadeEvento, UfEvento, qtdVoluntarios, duracaoEvento, pontuacao) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
         const resultado = await mysql.execute(query, [
             req.Ong.idOng,
             req.Ong.nomeOng,
@@ -58,6 +58,7 @@ exports.postCadastrarEventos = async (req, res, next) => {
         return res.status(201).send(response);
 
     } catch (error) {
+        console.log(error)
         return res.status(500).send({
             message: "Falha ao processar sua requisição",
             Erro: error

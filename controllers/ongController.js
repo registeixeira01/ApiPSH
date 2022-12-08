@@ -98,11 +98,25 @@ exports.postLoginOngs = async (req, res, next) => {
     }
 };
 
-exports.getOngListarEventos = async(req, res, next) => {
+exports.getOngListarEventos = async (req, res, next) => {
     try {
         const resultado = await mysql.execute(
-            `SELECT * 
-               FROM Eventos 
+            `SELECT idEvento,
+                    idOng,
+                    ongResponsavel,
+                    nomeEvento,
+                    DATE_FORMAT(dataEvento,'%d/%m/%Y') 'dataEvento',
+                    TIME_FORMAT(horarioEvento,'%Hh%i') 'horarioEvento',
+                    cepEvento,
+                    enderecoEvento,
+                    numeroEvento,
+                    bairroEvento,
+                    cidadeEvento,
+                    ufEvento,
+                    qtdVoluntarios,
+                    TIME_FORMAT(duracaoEvento,'%Hh%i') 'duracaoEvento',
+                    pontuacao
+               FROM eventos 
               WHERE idOng = ?`,
             [req.Ong.idOng]
         )
